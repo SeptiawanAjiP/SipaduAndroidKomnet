@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.BeritaDetailActivity">
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scroller_berita_detail">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/head_berita_detail"/>
+            <TextView android:id="@+id/txt_detail"
+                android:text="HELLO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="14dp"
+                android:layout_margin="10dp"/>
+        </LinearLayout>
+
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/head_berita_detail"
+        android:id="@+id/head_berita_detail"
+        android:orientation="vertical"
+        android:gravity="bottom">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:gravity="bottom">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:paddingLeft="@dimen/padding_text_head_berita_detail"
+                android:paddingBottom="@dimen/padding_text_head_berita_detail"
+                android:paddingRight="@dimen/padding_text_head_berita_detail"
+                android:textAllCaps="true"
+                android:text="INI SALAH SATU CONTOH JUDUL BERITA YANG SUNGGUH TERAMAT SANGAT PANJANG SEKALI BANGET"
+                android:textColor="@android:color/white"
+                android:id="@+id/title_berita_detail"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:background="@color/colorSecondary"
+                android:layout_below="@id/title_berita_detail"
+                android:id="@+id/subtitle_berita_detail"
+                android:gravity="center_vertical">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tanggal_berita_detail"
+                android:background="@color/colorSecondary"
+                android:gravity="center"
+                android:text="Tanggal"
+                android:padding="5dp"
+                android:textSize="14dp"
+                android:textColor="@android:color/white"
+                android:layout_weight="1"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/white"></View>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/pengirim_berita_detail"
+                android:background="@color/colorSecondary"
+                android:textSize="14dp"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:text="Pengirim"
+                android:padding="5dp"
+                android:textColor="@android:color/white"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/transparent"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_berita_detail"
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+</RelativeLayout>

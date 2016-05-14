@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.LoginActivity">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="bottom">
+
+    <FrameLayout
+        android:background="@color/colorPrimary"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonbawah"
+        android:id="@+id/kontainerfragment"></FrameLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#ffffffff"
+        android:layout_above="@+id/buttonbawah"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:id="@+id/buttonbawah"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@color/colorPrimary"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:layout_weight="0.5"
+            android:textSize="15dp"
+            android:textColor="#ffffffff"
+            android:id="@+id/prev_1" android:visibility="invisible"/>
+        <View
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:layout_margin="5dip"
+            android:background="#ffffffff"/>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@color/colorPrimary"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:text="NEXT >"
+            android:layout_weight="0.5"
+            android:textSize="15dp"
+            android:textColor="#ffffffff"
+            android:id="@+id/next_1" >
+            <requestFocus/>
+        </Button>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

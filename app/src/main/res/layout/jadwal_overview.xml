@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.HomeActivity"
+    tools:showIn="@layout/activity_home">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_jadwal_overview"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        android:layout_margin="5dp"
+        android:background="@android:color/white"
+        card_view:cardPreventCornerOverlap="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="JADWAL"
+                android:textAlignment="center"
+                android:background="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selasa, 12 April 2016"
+                android:id="@+id/tanggal_jadwal"
+                android:textAlignment="center"
+                android:background="@color/colorSecondary"
+                android:textColor="@android:color/white"
+                android:textSize="14dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_jadwal_overview"></ListView>
+
+            <com.rahadi.sipadu.DateTab
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/jadwal_tab_overview"/>
+        </LinearLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

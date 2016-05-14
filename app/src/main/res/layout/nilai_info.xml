@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/flexible_space_height"
+        android:background="@color/colorPrimary"
+        android:text="INFORMASI NILAI IP"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/title"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:stretchColumns="1,2">
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="Huruf Mutu"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="Rentang Nilai Absolut"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <View
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/cardview_dark_background" />
+
+            <TableRow>
+
+                <TextView
+                    android:layout_column="1"
+                    android:text="A"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="90 - 100"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="A-"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="80 - 89.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="B+"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="75 - 79.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="B"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="68 - 74.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="C+"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="60 - 67.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="C"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="55 - 59.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="D+"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="50 - 54.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="D"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="40 - 49.9"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:layout_column="1"
+                    android:text="E"
+                    android:gravity="center"
+                    android:padding="3dip"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_column="2"
+                    android:text="&lt;40"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:padding="3dip" />
+
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
+
+    <Button
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/flexible_space_height"
+        android:text="OK"
+        android:textSize="15dp"
+        android:textColor="#ffffffff"
+        android:id="@+id/info_btn" />
+
+</LinearLayout>

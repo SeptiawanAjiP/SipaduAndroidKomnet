@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/background_light"
+    tools:showIn="@layout/activity_home">
+
+    <include layout="@layout/berita_overview"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:text="Absensi"
+            android:id="@+id/button_absen"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:text="Nilai"
+            android:id="@+id/button_nilai"
+            />
+    </LinearLayout>
+
+        <include layout="@layout/jadwal_overview"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:text="Dashboard"
+                android:id="@+id/button_dashboard" />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:text="Information Center"
+                android:id="@+id/button_sic" />
+        </LinearLayout>
+
+</LinearLayout>

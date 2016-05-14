@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0080ff</color>
+    <!--<color name="colorPrimaryDark">#225ad9</color>-->
+    <color name="colorPrimaryDark">#0060bf</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#4D4D4D</color>
+    <color name="switchInactive">#500080FF</color>
+    <color name="tabIndicator">#FFFFFF</color>
+</resources>

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Sipadu</string>
+    <string name="nama_lengkap">SIPADU STIS</string>
+    <string name="nim">NIM</string>
+    <string name="password">PASSWORD</string>
+    <string name="logotransition">logotransition</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_splashscreen">splashscreen</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="kelas">Kelas</string>
+    <string name="welcome">Welcome !</string>
+    <string name="berita">BERITA</string>
+    <string name="gagal_konek">Anda Tidak Terhubung ke Internet</string>
+    <string name="nim_kosong">Nim Tidak Boleh Kosong</string>
+    <string name="nim_tidak_ada">Nim Tidak Ada</string>
+    <string name="password_kosong">Password Tidak Boleh Kosong</string>
+    <string name="password_salah">Password Salah</string>
+
+
+    <string name="title_activity_berita">BERITA</string>
+
+    <string name="title_activity_absensi">ABSENSI</string>
+    <string name="title_activity_jadwal">JADWAL</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="absensi_activity_name">ABSENSI</string>
+    <string name="absensi_layouter_name">isfann</string>
+    <string name="percent">%</string>
+
+    <string name="data_tidak_ada">Data Tidak Ada</string>
+</resources>

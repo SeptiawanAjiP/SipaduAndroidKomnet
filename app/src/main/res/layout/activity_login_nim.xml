@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".UserInterface.LoginActivityNim">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="bottom">
+
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonbawah"
+        android:gravity="center_vertical|center_horizontal">
+
+        <ImageView
+            android:layout_width="130dip"
+            android:layout_height="130dip"
+            android:id="@+id/logo_opening"
+            android:src="@drawable/ic_logo"
+            android:transitionName="@string/logotransition"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/welcome"
+            android:layout_marginTop="20dip"
+            android:textColor="#ffffffff"
+            android:textSize="15dip"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/nama_lengkap"
+            android:textStyle="bold"
+            android:textColor="#ffffffff"
+            android:textSize="20dip"
+            android:layout_marginBottom="50dip" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dip"
+            android:layout_marginRight="50dip">
+
+            <!--<TextView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/nim"-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:textSize="15dip"-->
+            <!--android:textColor="#ffffff" />-->
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nim_support"
+                style="@style/TextLabel"
+                theme="@style/TextLabel">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/nim_input"
+                    android:textColor="@android:color/white"
+                    android:hint="@string/nim"
+                    android:inputType="numberDecimal" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#ffffffff"
+        android:layout_above="@+id/buttonbawah"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:id="@+id/buttonbawah"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@color/colorPrimary"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:layout_weight="0.5"
+            android:textSize="15dip"
+            android:textColor="#ffffffff"
+            android:id="@+id/prev_1" android:visibility="invisible"/>
+        <View
+            android:layout_width="1dip"
+            android:layout_height="fill_parent"
+            android:layout_margin="5dip"
+            android:background="#ffffffff"/>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@color/colorPrimary"
+            android:layout_width="0.0dip"
+            android:layout_height="wrap_content"
+            android:text="NEXT >"
+            android:layout_weight="0.5"
+            android:textSize="15dip"
+            android:textColor="#ffffffff"
+            android:id="@+id/next_1" >
+            <requestFocus/>
+        </Button>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
