@@ -4,6 +4,10 @@ package com.rahadi.sipadu.WebService;
  * Created by Septiawan Aji on 5/11/2016.
  */
 
+/*
+    Berisi alamat url webservice dan nama2 dari method didalam nya
+ */
+
 public class WebServiceProperties {
     //url dan namespace
     private final static String URL = "http://192.168.1.101:8080/WebService/NewWebService?WSDL";

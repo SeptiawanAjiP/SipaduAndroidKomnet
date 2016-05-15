@@ -16,7 +16,7 @@ public class ParseDataDariServer {
     - DIgunakan pada saat user memasukan nim, mengakses webservice getNama(String nim)
     Semua data yang dikembalikan oleh server dalam bentuk STring
     sehingga perlu di parse menjadi Hasmap ataupun Array
-    dara dari server
+    data dari server
             {kelas=3KS1, nama=Septiawan Aji Pradana, path_foto_profile=http://192.168.1.100/sipadu/foto.png}
 
     -harus diparse dulu menjadi Map

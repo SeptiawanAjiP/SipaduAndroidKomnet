@@ -1,9 +1,11 @@
 package com.rahadi.sipadu.UserInterface;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,30 +32,51 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.rahadi.sipadu.ImageLoader.ImageLoader;
 import com.rahadi.sipadu.Object.Mahasiswa;
+import com.rahadi.sipadu.Object.BeritaObjek;
 import com.rahadi.sipadu.Object.StaticFinal;
 import com.rahadi.sipadu.R;
+import com.rahadi.sipadu.WebService.JSONApi;
+import com.rahadi.sipadu.WebService.JSONParser;
 import com.rahadi.sipadu.adapters.ArrayContainer;
 import com.rahadi.sipadu.adapters.Berita;
 import com.rahadi.sipadu.adapters.Jadwal;
 import com.rahadi.sipadu.gettersetter.BeritaGetsetter;
 import com.rahadi.sipadu.gettersetter.JadwalGetsetter;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+/*
+    Menangani layout home,berisi beberapa aktivitas ke server spt : getBerita,getJadwal
+
+    *catatan--aji :
+    1. (next) Gugnakan share preference untuk menyimpan nim,nama,kelas
+    2. (next) seharusnya dipisah tiap aktivitas request ke servernya
+    3. (next) berita masih request ke API php stis.ac.id/sipadu/android/...
+    4. (next) untuk list berita seharusnya dibuat pagination,untuk sementara
+        berita yang direquest sebanyak 50 (StaticFinal.getIsiJumlah)
+ */
 
 public class HomeActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
     Mahasiswa mhs = new Mahasiswa();
     ImageLoader imageLoader;
     TextView userNameHome,kelasHome;
-
+    ArrayList<ArrayList> arr2;
     private ListView jadwal_overview, berita_overview;
     private ArrayList<JadwalGetsetter> jadwal_overview_array;
     private ArrayList<BeritaGetsetter> berita_overview_array;
     private ObservableScrollView mScrollView;
     private int parallaxHeight;
     private DisplayMetrics displayMetrics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,32 +153,12 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         }
         jadwal_overview.setEmptyView(emptyView);
 
-        berita_overview = (ListView)findViewById(R.id.list_berita_overview);
-        berita_overview_array = new ArrayList<>();
-
-        BeritaGetsetter berita = null;
-        int jumlah_berita_overview = 5;
-
-        for(int i = 0; i<jumlah_berita_overview; i++) {
-            berita = new BeritaGetsetter();
-            berita.setInisial(ArrayContainer.konten_berita[i][0].substring(0, 1).toUpperCase());
-            berita.setNama(ArrayContainer.konten_berita[i][0]);
-            berita.setTanggal(ArrayContainer.konten_berita[i][1]);
-            berita.setPengirim(ArrayContainer.konten_berita[i][2]);
-            berita.setIsi(ArrayContainer.konten_berita[i][3]);
-
-            berita_overview_array.add(berita);
-        }
-
-        Berita adapterBerita = new Berita(HomeActivity.this, berita_overview_array);
-        berita_overview.setAdapter(adapterBerita);
+        new getListBerita().execute();
 
         if(!jadwal_overview_array.isEmpty()) {
             setListViewHeight(jadwal_overview);
         }
-        if(!berita_overview_array.isEmpty()) {
-            setListViewHeight(berita_overview);
-        }
+
         userNameHome = (TextView)findViewById(R.id.username_home);
         kelasHome = (TextView)findViewById(R.id.kelas_home);
 
@@ -164,7 +168,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         kelasHome.setText(mhs.getKelas());
 
         imageLoader = new ImageLoader(getApplicationContext());
-        imageLoader.DisplayImage(mhs.getPath_foto(),circleImageView);
+        imageLoader.DisplayImage(mhs.getPath_foto(), circleImageView);
 
         CardView beritaOverview = (CardView)findViewById(R.id.card_view_berita_overview);
         beritaOverview.setOnClickListener(new View.OnClickListener() {
@@ -175,16 +179,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             }
         });
 
-        berita_overview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BeritaGetsetter mbl = berita_overview_array.get(position);
 
-                Intent intent = new Intent(HomeActivity.this, BeritaDetailActivity.class);
-                intent.putExtra(BeritaDetailActivity.KEY_ITEM, mbl);
-                startActivityForResult(intent, 0);
-            }
-        });
 
         CardView jadwalOverview = (CardView)findViewById(R.id.card_view_jadwal_overview);
         jadwalOverview.setOnClickListener(new View.OnClickListener() {
@@ -199,9 +194,9 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(HomeActivity.this, AbsensiActivity.class);
-                i.putExtra(StaticFinal.getNIM(),mhs.getNim());
+                i.putExtra(StaticFinal.getNIM(), mhs.getNim());
 
-                i.putExtra(StaticFinal.getKELAS(),mhs.getKelas());
+                i.putExtra(StaticFinal.getKELAS(), mhs.getKelas());
 
                 startActivity(i);
             }
@@ -214,6 +209,8 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
                 startActivity(i);
             }
         });
+
+
 
     }
     @Override
@@ -429,5 +426,115 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             tanggal = day + ", " + calendar.get(Calendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(Calendar.YEAR);
         }
         return tanggal;
+    }
+    /*
+    Digunakan untuk memparse list berita dari api php
+        http://stis.ac.id/sipadu/android/berita.php?page=1&jumlah=50&nim=13.7868
+        alamat url ini dituliskan di class JSONApi
+
+        *catatan harusnya dipisah jadi adapter, jangan dijadikan 1 dlm 1 activity
+     */
+    public class getListBerita extends AsyncTask<String,String,String>{
+        ProgressDialog pDialog;
+        ArrayList<HashMap<String,String>> arrayList;
+        ArrayList<String> arr1;
+
+        BeritaObjek berita = new BeritaObjek();
+        JSONObject json;
+        JSONArray data;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            super.onPreExecute();
+            Log.d("LoginActivityNim", "onPreExecute");
+            pDialog = new ProgressDialog(HomeActivity.this);
+            pDialog.setMessage("Loading");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            JSONParser jsonParser = new JSONParser();
+            arr2= new ArrayList<ArrayList>();
+            List<NameValuePair> parameter = new ArrayList<>();
+            try {
+                json = jsonParser.getJSONFromUrl(JSONApi.getAlamatUrlPhp() + mhs.getNim());
+                data = json.getJSONArray(StaticFinal.getBERITA());
+
+                Log.d("data :",data.toString());
+                Log.d("Panjang data : ", Integer.toString(data.length()));
+
+                for(int i = 0; i< data.length();i++){
+                    arr1= new ArrayList<String>();
+                    JSONObject c = data.getJSONObject(i);
+
+                    berita.setKode_berita(c.getString(StaticFinal.getKodeBerita()));
+                    berita.setJudul(c.getString(StaticFinal.getJUDUL()));
+                    berita.setUnit_kerja(c.getString(StaticFinal.getUnitKerja()));
+
+                    berita.setHari(c.getString(StaticFinal.getHARI()));
+                    berita.setTanggal(c.getString(StaticFinal.getTANGGAL()));
+
+                    arr1.add(berita.getKode_berita());
+                    arr1.add(berita.getJudul());
+                    arr1.add(berita.getUnit_kerja());
+                    arr1.add(berita.getHari());
+                    arr1.add(berita.getTanggal());
+                    Log.d("Array 1", arr1.toString());
+                    arr2.add(arr1);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("Array 2", arr2.toString());
+            Log.d("Hasil :", arr2.get(1).get(0).toString());
+            berita_overview = (ListView)findViewById(R.id.list_berita_overview);
+            berita_overview_array = new ArrayList<>();
+
+            BeritaGetsetter berita = null;
+            int jumlah_berita_overview = 5;
+
+            for(int i = 0; i<jumlah_berita_overview; i++) {
+                berita = new BeritaGetsetter();
+                berita.setInisial(arr2.get(i).get(1).toString().substring(0,1).toUpperCase());
+                berita.setNama(arr2.get(i).get(1).toString());
+                berita.setTanggal(arr2.get(i).get(4).toString());
+                berita.setPengirim(arr2.get(i).get(2).toString());
+                berita.setIsi(arr2.get(i).get(0).toString());
+
+                berita_overview_array.add(berita);
+            }
+
+            Berita adapterBerita = new Berita(HomeActivity.this, berita_overview_array);
+            berita_overview.setAdapter(adapterBerita);
+            if(!berita_overview_array.isEmpty()) {
+                setListViewHeight(berita_overview);
+            }
+            berita_overview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    BeritaGetsetter mbl = berita_overview_array.get(position);
+
+                    Intent intent = new Intent(HomeActivity.this, BeritaDetailActivity.class);
+                    intent.putExtra(BeritaDetailActivity.KEY_ITEM, mbl);
+                    startActivityForResult(intent, 0);
+                }
+            });
+
+
+
+
+
+            pDialog.dismiss();
+        }
     }
 }

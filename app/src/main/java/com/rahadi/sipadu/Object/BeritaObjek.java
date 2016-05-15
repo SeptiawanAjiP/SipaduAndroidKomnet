@@ -5,12 +5,12 @@ import java.util.Date;
 /**
  * Created by Septiawan Aji on 5/13/2016.
  */
-public class Pengumuman {
+public class BeritaObjek {
     private String kode_berita;
     private String judul;
     private String unit_kerja;
     private String hari;
-    private Date tanggal;
+    private String tanggal;
     private String konten;
 
     public String getKode_berita() {
@@ -45,11 +45,11 @@ public class Pengumuman {
         this.hari = hari;
     }
 
-    public Date getTanggal() {
+    public String getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(Date tanggal) {
+    public void setTanggal(String tanggal) {
         this.tanggal = tanggal;
     }
 

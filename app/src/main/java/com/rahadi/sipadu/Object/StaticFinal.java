@@ -43,6 +43,13 @@ public class StaticFinal {
     //getJadwalHariIni
     private static final String STATUS = "status";
 
+    //pada konten berita yang memparse data dari api
+    private static final String BERITA = "berita";
+    private static final String PAGE= "page";
+    private static final String JUMLAH = "jumlah";
+    private static final String ISI_PAGE = "2";
+    private static final String ISI_JUMLAH = "50";
+
 
     public static String getNAMA() {
         return NAMA;
@@ -142,5 +149,25 @@ public class StaticFinal {
 
     public static String getSTATUS() {
         return STATUS;
+    }
+
+    public static String getPAGE() {
+        return PAGE;
+    }
+
+    public static String getJUMLAH() {
+        return JUMLAH;
+    }
+
+    public static String getIsiPage() {
+        return ISI_PAGE;
+    }
+
+    public static String getIsiJumlah() {
+        return ISI_JUMLAH;
+    }
+
+    public static String getBERITA() {
+        return BERITA;
     }
 }
