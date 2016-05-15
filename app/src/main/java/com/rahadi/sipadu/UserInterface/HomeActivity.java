@@ -44,13 +44,12 @@ import com.rahadi.sipadu.gettersetter.BeritaGetsetter;
 import com.rahadi.sipadu.gettersetter.JadwalGetsetter;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -65,7 +64,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
         berita yang direquest sebanyak 50 (StaticFinal.getIsiJumlah)
  */
 
-public class HomeActivity extends AppCompatActivity implements ObservableScrollViewCallbacks {
+public class HomeActivity extends AppCompatActivity implements ObservableScrollViewCallbacks,Serializable {
     Mahasiswa mhs = new Mahasiswa();
     ImageLoader imageLoader;
     TextView userNameHome,kelasHome;
@@ -77,6 +76,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
     private int parallaxHeight;
     private DisplayMetrics displayMetrics;
 
+    BeritaActivity beritaActivity = new BeritaActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         }
         jadwal_overview.setEmptyView(emptyView);
 
-        new getListBerita().execute();//memproses list berita
+        new getListBeritaOverView().execute();//memproses list berita
 
         if(!jadwal_overview_array.isEmpty()) {
             setListViewHeight(jadwal_overview);
@@ -175,6 +175,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(HomeActivity.this, BeritaActivity.class);
+                i.putExtra(StaticFinal.getBERITA(),arr2);
                 startActivity(i);
             }
         });
@@ -442,10 +443,9 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
 
         *catatan harusnya dipisah jadi adapter, jangan dijadikan 1 dlm 1 activity
      */
-    public class getListBerita extends AsyncTask<String,String,String>{
+    public class getListBeritaOverView extends AsyncTask<String,String,String>{
         ProgressDialog pDialog;
-        ArrayList<HashMap<String,String>> arrayList;
-        ArrayList<String> arr1;
+        ArrayList<String> array;
 
         BeritaObjek berita = new BeritaObjek();
         JSONObject json;
@@ -475,7 +475,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
                 Log.d("Panjang data : ", Integer.toString(data.length()));
 
                 for(int i = 0; i< data.length();i++){
-                    arr1= new ArrayList<String>();
+                    array = new ArrayList<String>();
                     JSONObject c = data.getJSONObject(i);
 
                     berita.setKode_berita(c.getString(StaticFinal.getKodeBerita()));
@@ -485,13 +485,13 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
                     berita.setHari(c.getString(StaticFinal.getHARI()));
                     berita.setTanggal(c.getString(StaticFinal.getTANGGAL()));
 
-                    arr1.add(berita.getKode_berita());
-                    arr1.add(berita.getJudul());
-                    arr1.add(berita.getUnit_kerja());
-                    arr1.add(berita.getHari());
-                    arr1.add(berita.getTanggal());
-                    Log.d("Array 1", arr1.toString());
-                    arr2.add(arr1);
+                    array.add(berita.getKode_berita());
+                    array.add(berita.getJudul());
+                    array.add(berita.getUnit_kerja());
+                    array.add(berita.getHari());
+                    array.add(berita.getTanggal());
+                    Log.d("Array 1", array.toString());
+                    arr2.add(array);
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -503,6 +503,9 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+
+            //beritaActivity.setArray(arr2);
             Log.d("Array 2", arr2.toString());
             Log.d("Hasil :", arr2.get(1).get(0).toString());
             berita_overview = (ListView)findViewById(R.id.list_berita_overview);
@@ -521,7 +524,6 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
 
                 berita_overview_array.add(berita);
             }
-
             Berita adapterBerita = new Berita(HomeActivity.this, berita_overview_array);
             berita_overview.setAdapter(adapterBerita);
             if(!berita_overview_array.isEmpty()) {
@@ -531,17 +533,12 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     BeritaGetsetter mbl = berita_overview_array.get(position);
-
                     Intent intent = new Intent(HomeActivity.this, BeritaDetailActivity.class);
                     intent.putExtra(BeritaDetailActivity.KEY_ITEM, mbl);
+
                     startActivityForResult(intent, 0);
                 }
             });
-
-
-
-
-
             pDialog.dismiss();
         }
     }
