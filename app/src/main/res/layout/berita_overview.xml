@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="2dp"
         android:layout_margin="5dp"
-        android:background="@android:color/white"
-        card_view:cardPreventCornerOverlap="true">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"

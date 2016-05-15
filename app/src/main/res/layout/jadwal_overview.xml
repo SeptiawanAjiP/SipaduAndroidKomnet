@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="2dp"
         android:layout_margin="5dp"
-        android:background="@android:color/white"
-        card_view:cardPreventCornerOverlap="true">
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,6 +49,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/list_jadwal_overview"></ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:id="@+id/jadwal_empty_weekday">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KOSONG WEEKDAY!"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:id="@+id/jadwal_empty_weekend">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="KOSONG WEEKEND!"/>
+            </LinearLayout>
 
             <com.rahadi.sipadu.DateTab
                 android:layout_width="match_parent"

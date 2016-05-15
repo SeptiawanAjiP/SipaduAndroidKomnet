@@ -153,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         }
         jadwal_overview.setEmptyView(emptyView);
 
-        new getListBerita().execute();
+        new getListBerita().execute();//memproses list berita
 
         if(!jadwal_overview_array.isEmpty()) {
             setListViewHeight(jadwal_overview);
@@ -175,6 +175,14 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(HomeActivity.this, BeritaActivity.class);
+                startActivity(i);
+            }
+        });
+
+        jadwal_overview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(HomeActivity.this, JadwalActivity.class);
                 startActivity(i);
             }
         });

@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.JadwalActivity">
+
+    <item
+        android:id="@+id/reset"
+        android:orderInCategory="100"
+        android:title="Hari Ini"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_restore"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/calendar"
+        android:orderInCategory="100"
+        android:title="Pilih tanggal"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_calendar"/>
+
+</menu>
