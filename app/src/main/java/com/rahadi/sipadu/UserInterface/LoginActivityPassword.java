@@ -31,6 +31,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -168,7 +169,11 @@ public class LoginActivityPassword extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            Calendar calendar = Calendar.getInstance();
+            String parameterTanggal;
+            parameterTanggal = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH))+"-"+Integer.toString(calendar.get(Calendar.MONTH)+1)+
+                    "-"+Integer.toString(calendar.get(Calendar.YEAR)).replace("20", "");
+            Log.d("Format tanggal ",parameterTanggal);
             if(respon.equals("1")){
                 Intent i = new Intent(getApplicationContext(),HomeActivity.class);
 
@@ -177,6 +182,7 @@ public class LoginActivityPassword extends AppCompatActivity {
                 i.putExtra(StaticFinal.getNAMA(),mhs.getNama());
                 i.putExtra(StaticFinal.getKELAS(),mhs.getKelas());
                 i.putExtra(StaticFinal.getPathFoto(), mhs.getPath_foto());
+                i.putExtra(StaticFinal.getTANGGAL(),parameterTanggal);
                 startActivity(i);
 
             }else{//bool bernilai false

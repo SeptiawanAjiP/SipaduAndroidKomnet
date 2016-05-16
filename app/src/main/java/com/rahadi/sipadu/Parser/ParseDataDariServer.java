@@ -65,10 +65,11 @@ public class ParseDataDariServer {
 
         for(int i=0;i<rows.length;i++){
             absensi = new AbsensiGetsetter();
-            //absensi.setKode_matkul(matrix[i][0]);
+            absensi.setKode_matkul(matrix[i][0]);
             absensi.setPersentase(matrix[i][1]);
             absensi.setDosen(matrix[i][2]);
             absensi.setMataKuliah(matrix[i][3]);
+
             absensi.setHurufDepan();
             listAbsensi.add(absensi);
             Log.d("List Absensi Parser", listAbsensi.toString());

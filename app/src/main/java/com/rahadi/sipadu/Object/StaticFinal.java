@@ -19,6 +19,7 @@ public class StaticFinal {
     private static final String DOSEN = "dosen";
     private static final String KODE_RUANGAN = "kode_ruangan";
     private static final String NAMA_SINGKAT = "nama_singkat";
+    private static final String JADWAL = "jadwal";
 
     //getPengumuman & getDetailPengumuman & getDetailAbsensi &getJadwalHariIni
     private static final String KODE_BERITA = "kode_berita";
@@ -170,4 +171,10 @@ public class StaticFinal {
     public static String getBERITA() {
         return BERITA;
     }
+
+    public static String getJADWAL() {
+        return JADWAL;
+    }
+
+
 }

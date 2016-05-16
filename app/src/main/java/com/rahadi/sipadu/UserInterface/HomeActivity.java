@@ -37,7 +37,6 @@ import com.rahadi.sipadu.Object.StaticFinal;
 import com.rahadi.sipadu.R;
 import com.rahadi.sipadu.WebService.JSONApi;
 import com.rahadi.sipadu.WebService.JSONParser;
-import com.rahadi.sipadu.adapters.ArrayContainer;
 import com.rahadi.sipadu.adapters.Berita;
 import com.rahadi.sipadu.adapters.Jadwal;
 import com.rahadi.sipadu.gettersetter.BeritaGetsetter;
@@ -69,6 +68,9 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
     ImageLoader imageLoader;
     TextView userNameHome,kelasHome;
     ArrayList<ArrayList> arr2;
+
+    String parameterTanggal;
+
     private ListView jadwal_overview, berita_overview;
     private ArrayList<JadwalGetsetter> jadwal_overview_array;
     private ArrayList<BeritaGetsetter> berita_overview_array;
@@ -88,6 +90,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         mhs.setNama(intent.getStringExtra(StaticFinal.getNAMA()));
         mhs.setKelas(intent.getStringExtra(StaticFinal.getKELAS()));
         mhs.setPath_foto(intent.getStringExtra(StaticFinal.getPathFoto()));
+        parameterTanggal = intent.getStringExtra(StaticFinal.getTANGGAL());
 
         if(toolbar.getOverflowIcon() != null) {
             toolbar.getOverflowIcon().setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_IN);
@@ -124,40 +127,9 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         jadwal_overview = (ListView)findViewById(R.id.list_jadwal_overview);
         jadwal_overview_array = new ArrayList<>();
 
-        JadwalGetsetter jadwal = null;
-
-        Calendar calendar = Calendar.getInstance();
-        int today  = calendar.get(Calendar.DAY_OF_WEEK);
-
-        if(today > 1 && today < 7) {
-            today -= 2;
-            for (int j = 0; j < ArrayContainer.konten_jadwal[today].length; j++) {
-                jadwal = new JadwalGetsetter();
-                jadwal.setSesi(ArrayContainer.konten_jadwal[today][j][0]);
-                jadwal.setMatkul(ArrayContainer.konten_jadwal[today][j][1]);
-                jadwal.setDosen(ArrayContainer.konten_jadwal[today][j][2]);
-                jadwal.setRuang(ArrayContainer.konten_jadwal[today][j][3]);
-
-                jadwal_overview_array.add(jadwal);
-            }
-        }
-
-        Jadwal adapterJadwal = new Jadwal(HomeActivity.this, jadwal_overview_array);
-        jadwal_overview.setAdapter(adapterJadwal);
-
-        View emptyView;
-        if (today == 1 || today == 7) {
-            emptyView = findViewById(R.id.jadwal_empty_weekend);
-        } else {
-            emptyView = findViewById(R.id.jadwal_empty_weekday);
-        }
-        jadwal_overview.setEmptyView(emptyView);
-
         new getListBeritaOverView().execute();//memproses list berita
+        new getJadwal().execute();//memproses jadwal
 
-        if(!jadwal_overview_array.isEmpty()) {
-            setListViewHeight(jadwal_overview);
-        }
 
         userNameHome = (TextView)findViewById(R.id.username_home);
         kelasHome = (TextView)findViewById(R.id.kelas_home);
@@ -382,6 +354,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
 
     public String getToday(String usage) {
         String day, month, tanggal;
+        String tgl,bln,thn;
         Calendar calendar = Calendar.getInstance();
 
         tanggal = null;
@@ -433,6 +406,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         }
         if(usage.equals("JADWAL_OVERVIEW")) {
             tanggal = day + ", " + calendar.get(Calendar.DAY_OF_MONTH) + " " + month + " " + calendar.get(Calendar.YEAR);
+
         }
         return tanggal;
     }
@@ -453,7 +427,6 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            super.onPreExecute();
             Log.d("LoginActivityNim", "onPreExecute");
             pDialog = new ProgressDialog(HomeActivity.this);
             pDialog.setMessage("Loading");
@@ -468,7 +441,7 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             arr2= new ArrayList<ArrayList>();
             List<NameValuePair> parameter = new ArrayList<>();
             try {
-                json = jsonParser.getJSONFromUrl(JSONApi.getAlamatUrlPhp() + mhs.getNim());
+                json = jsonParser.getJSONFromUrl(JSONApi.getAlamatURLBerita() + mhs.getNim());
                 data = json.getJSONArray(StaticFinal.getBERITA());
 
                 Log.d("data :",data.toString());
@@ -500,14 +473,12 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
             return null;
         }
 
+
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
-
             //beritaActivity.setArray(arr2);
-            Log.d("Array 2", arr2.toString());
-            Log.d("Hasil :", arr2.get(1).get(0).toString());
             berita_overview = (ListView)findViewById(R.id.list_berita_overview);
             berita_overview_array = new ArrayList<>();
 
@@ -521,7 +492,6 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
                 berita.setTanggal(arr2.get(i).get(4).toString());
                 berita.setPengirim(arr2.get(i).get(2).toString());
                 berita.setIsi(arr2.get(i).get(0).toString());
-
                 berita_overview_array.add(berita);
             }
             Berita adapterBerita = new Berita(HomeActivity.this, berita_overview_array);
@@ -540,6 +510,95 @@ public class HomeActivity extends AppCompatActivity implements ObservableScrollV
                 }
             });
             pDialog.dismiss();
+        }
+    }
+    /*
+    Memparse jadwal data dari API php dengan parameter nim dan tgl
+     */
+
+    public class getJadwal extends AsyncTask<String,String,String>{
+        ProgressDialog pDialog;
+        JSONObject json;
+        JSONArray data;
+        JadwalGetsetter jdwl = null;
+        ArrayList<JadwalGetsetter> array = new ArrayList<JadwalGetsetter>();;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("LoginActivityNim", "onPreExecute");
+            pDialog = new ProgressDialog(HomeActivity.this);
+            pDialog.setMessage("Loading");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            JSONParser jsonParser = new JSONParser();
+            List<NameValuePair> parameter = new ArrayList<>();
+            try {
+
+                json = jsonParser.getJSONFromUrl(JSONApi.getAlamatURLJadwal() + mhs.getNim() + JSONApi.getTGL()+parameterTanggal);
+                Log.d("Alamat Jadwal :",JSONApi.getAlamatURLJadwal() + mhs.getNim() + JSONApi.getTGL()+parameterTanggal);
+                data = json.getJSONArray(StaticFinal.getJADWAL());
+
+                Log.d("data :",data.toString());
+                Log.d("Panjang data : ", Integer.toString(data.length()));
+
+                for(int i = 0; i< data.length();i++){
+
+                    JSONObject c = data.getJSONObject(i);
+                    jdwl = new JadwalGetsetter();
+                    jdwl.setSesi(c.getString(StaticFinal.getKodeSesi()));
+                    jdwl.setMatkul(c.getString(StaticFinal.getMATKUL()));
+                    jdwl.setDosen(c.getString(StaticFinal.getNAMA()));
+                    jdwl.setRuang(c.getString(StaticFinal.getKodeRuangan()));
+
+                    Log.d("Jadwal ",jdwl.toString());
+
+                    array.add(jdwl);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Calendar calendar = Calendar.getInstance();
+            int today  = calendar.get(Calendar.DAY_OF_WEEK);
+            Log.d("Array Jadwal ",array.toString());
+            if(today > 1 && today < 7) {
+                today -= 2;
+                for (int j = 0; j < array.size(); j++) {
+                    jdwl = new JadwalGetsetter();
+                    jdwl = array.get(0);
+                    jadwal_overview_array.add(jdwl);
+                }
+            }
+
+            Jadwal adapterJadwal = new Jadwal(HomeActivity.this,array);
+            jadwal_overview.setAdapter(adapterJadwal);
+
+            View emptyView;
+            if (today == 1 || today == 7) {
+                emptyView = findViewById(R.id.jadwal_empty_weekend);
+            } else {
+                emptyView = findViewById(R.id.jadwal_empty_weekday);
+            }
+            emptyView.setVisibility(View.VISIBLE);
+            jadwal_overview.setEmptyView(emptyView);
+
+            if(!jadwal_overview_array.isEmpty()) {
+                setListViewHeight(jadwal_overview);
+            }
+            pDialog.dismiss();
+
         }
     }
 }
